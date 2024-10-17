@@ -2,23 +2,20 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProductResource\Pages;
-use App\Filament\Resources\ProductResource\RelationManagers;
-use App\Filament\Resources\ProductResource\RelationManagers\VarientsRelationManager;
-use App\Models\Product;
+use App\Filament\Resources\YearsResource\Pages;
+use App\Filament\Resources\YearsResource\RelationManagers;
+use App\Models\Years;
 use Filament\Forms;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use PhpParser\Node\Stmt\Switch_;
 
-class ProductResource extends Resource
+class YearsResource extends Resource
 {
-    protected static ?string $model = Product::class;
+    protected static ?string $model = Years::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -31,22 +28,6 @@ class ProductResource extends Resource
                     ->searchable()
                     ->preload()
                     ->required(),
-                Forms\Components\select::make('chapters_id')
-                    ->relationship('chapters', 'name')
-                    ->searchable()
-                    ->preload()
-                    ->required()
-                    ->options(function (callable $get) {
-                        $subcategoryId = $get('sub_category_id');
-
-                        if (!$subcategoryId) {
-                            return [];
-                        }
-
-                        return \App\Models\Chapters::where('sub_category_id', $subcategoryId)
-                            ->pluck('name', 'id');
-                    })
-                    ->reactive(),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
@@ -60,13 +41,21 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('chapters.name')
+                Tables\Columns\TextColumn::make('subcategory.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('images')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -75,6 +64,7 @@ class ProductResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+ 
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -86,17 +76,17 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // VarientsRelationManager::class
+            //
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
-            'view' => Pages\ViewProduct::route('/{record}'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'index' => Pages\ListYears::route('/'),
+            'create' => Pages\CreateYears::route('/create'),
+            'view' => Pages\ViewYears::route('/{record}'),
+            'edit' => Pages\EditYears::route('/{record}/edit'),
         ];
     }
 }

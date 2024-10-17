@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\SyllabusController;
 use App\Http\Controllers\UserController;
@@ -24,15 +25,6 @@ Route::get('/', function () {
     return view('index');
 });
 
-
-
-Route::get('/chest', [UserController::class, 'chest']);
-
-
-Route::get('/category/{slug}', [SubCategoryController::class, 'index']);
-
-Route::get('/subcategory/{slug}', [ProductController::class, 'index']);
-
 Route::get('/userinfo', [UserController::class, 'userInfo']);
 
 
@@ -41,8 +33,33 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/exercise', [CategoryController::class, 'categories']);
-    Route::get('/nutrition', [UserController::class, 'nutrition']);
-    Route::get('/syllabus', [SyllabusController::class, 'syllabuslist']);
+   
+//For syllabus
+Route::get('/syllabus',[SyllabusController::class,'index']);
+
+Route::get('/syllabus/{categoryId}/subcategories',[SyllabusController::class,'subcategory']);
+
+Route::get('/syllabus/{subcategoryId}/syllabus',[SyllabusController::class,'syllabus']);
+
+//For Notes
+Route::get('/notes',[ProductController::class,'index']);
+
+Route::get('/notes/{categoryId}/subcategories',[ProductController::class,'subcategory']);
+
+Route::get('/notes/{subcategoryId}/chapters',[ProductController::class,'chapters']);
+
+Route::get('/notes/{chaptersId}/notes',[ProductController::class,'products']);
+
+//For Past Questions
+Route::get('/questions',[QuestionController::class,'index']);
+
+Route::get('/questions/{categoryId}/subcategories',[QuestionController::class,'subcategory']);
+
+Route::get('/questions/{subcategoryId}/years',[QuestionController::class,'years']);
+
+Route::get('/questions/{chaptersId}/questions',[QuestionController::class,'questions']);
+
+//For search
+Route::get('/search',[UserController::class,'search']);
 
 });

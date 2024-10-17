@@ -2,23 +2,20 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProductResource\Pages;
-use App\Filament\Resources\ProductResource\RelationManagers;
-use App\Filament\Resources\ProductResource\RelationManagers\VarientsRelationManager;
-use App\Models\Product;
+use App\Filament\Resources\QuestionResource\Pages;
+use App\Filament\Resources\QuestionResource\RelationManagers;
+use App\Models\Question;
 use Filament\Forms;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use PhpParser\Node\Stmt\Switch_;
 
-class ProductResource extends Resource
+class QuestionResource extends Resource
 {
-    protected static ?string $model = Product::class;
+    protected static ?string $model = Question::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -31,8 +28,8 @@ class ProductResource extends Resource
                     ->searchable()
                     ->preload()
                     ->required(),
-                Forms\Components\select::make('chapters_id')
-                    ->relationship('chapters', 'name')
+                Forms\Components\select::make('years_id')
+                    ->relationship('years', 'name')
                     ->searchable()
                     ->preload()
                     ->required()
@@ -43,14 +40,14 @@ class ProductResource extends Resource
                             return [];
                         }
 
-                        return \App\Models\Chapters::where('sub_category_id', $subcategoryId)
+                        return \App\Models\Years::where('sub_category_id', $subcategoryId)
                             ->pluck('name', 'id');
                     })
                     ->reactive(),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\FileUpload::make('images')
+                    Forms\Components\FileUpload::make('images')
                     ->multiple()
                     ->required(),
             ]);
@@ -60,13 +57,13 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('chapters.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('images')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('years.name')
+                ->numeric()
+                ->sortable(),
+            Tables\Columns\TextColumn::make('name')
+                ->searchable(),
+            Tables\Columns\ImageColumn::make('images')
+                ->searchable(),
             ])
             ->filters([
                 //
@@ -75,6 +72,7 @@ class ProductResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -86,17 +84,17 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // VarientsRelationManager::class
+            //
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
-            'view' => Pages\ViewProduct::route('/{record}'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'index' => Pages\ListQuestions::route('/'),
+            'create' => Pages\CreateQuestion::route('/create'),
+            'view' => Pages\ViewQuestion::route('/{record}'),
+            'edit' => Pages\EditQuestion::route('/{record}/edit'),
         ];
     }
 }

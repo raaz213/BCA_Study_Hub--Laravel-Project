@@ -47,7 +47,7 @@
         @php
         $imagePath = is_array($category->images) ? $category->images[0] : $category->images;
         @endphp
-        <div class="card" style="width: 18rem;" onclick="window.location.href = '/category/{{$category->slug}}'">
+        <div class="card" style="width: 18rem;" onclick="window.location.href = '/questions/{{$category->id}}/subcategories'">
             <img src="{{ asset('storage/' . $imagePath) }}" class="card-img-top" alt="{{ $category->name }}">
             <div class="card-body">
                 <h2 class="card-title">{{ $category->name }}</h2>

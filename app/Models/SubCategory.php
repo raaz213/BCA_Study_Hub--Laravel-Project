@@ -15,7 +15,19 @@ class SubCategory extends Model
     public function category(){
         return $this->belongsTo(Category::class);
     }
-    public function product(){
+    public function chapters(){
+        return $this->hasMany(Chapters::class,'sub_category_id');
+    }
+    public function products(){
         return $this->hasMany(Product::class,'sub_category_id');
+    }
+    public function syllabus(){
+        return $this->hasMany(Syllabus::class,'sub_category_id');
+    }
+    public function years(){
+        return $this->hasMany(Years::class,'sub_category_id');
+    }
+    public function questions(){
+        return $this->hasMany(Question::class,'sub_category_id');
     }
 }

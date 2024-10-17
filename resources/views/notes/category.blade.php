@@ -11,7 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <style>
         body {
-            background-image: url('/assets/img/img1.webp');
+            background-image: url('assets/img/img3.jpg');
             background-size: 100%;
 
         }
@@ -43,12 +43,12 @@
 
 <body>
     <div class="card-container">
-        @foreach($syllabus as $category)
+        @foreach($categories as $category)
         @php
         $imagePath = is_array($category->images) ? $category->images[0] : $category->images;
         @endphp
-        <div class="card" style="width: 18rem;" onclick="window.location.href = '/category/{{$category->slug}}'">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr4CQA646I3C8CMuGmlZeYcSO7euvzwMdC_w&usqp=CAU" class="card-img-top" alt="{{ $category->name }}">
+        <div class="card" style="width: 18rem;" onclick="window.location.href = '/notes/{{$category->id}}/subcategories'">
+            <img src="{{ asset('storage/' . $imagePath) }}" class="card-img-top" alt="{{ $category->name }}">
             <div class="card-body">
                 <h2 class="card-title">{{ $category->name }}</h2>
             </div>

@@ -15,14 +15,14 @@
 
 <body>
 <div id="carouselExampleCaptions" class="carousel slide">
-  <div class="carousel-indicators">
+  <div class="carousel-indicators ">
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src=" {{asset('assets/img/img1.webp')}}" class="d-block w-100" alt="...">
+      <img src=" {{asset('assets/img/img1.webp')}}" class="d-block w-100 " alt="...">
       <div class="carousel-caption d-none d-md-block">
         <h1 style="color:rgb(235, 11, 11)">Ignite your passion for learning, shape your future.</h1>
 			<h3 style="color:#00ff4c">Some envision greatness, some hope for it, others achieve it.</h3>
